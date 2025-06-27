@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Arsip Surat</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; background: #f2f2f2; }
+    h1 { text-align: center; }
+    form, table { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    input, select { width: 100%; padding: 8px; margin-top: 8px; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #eee; }
+    .btn { background: #4CAF50; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+    .btn:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <h1>Form Arsip Surat</h1>
+  <form id="formSurat">
+    <label>Nomor Surat:</label>
+    <input type="text" name="nomor" required>
+
+    <label>Tanggal:</label>
+    <input type="date" name="tanggal" required>
+
+    <label>Pengirim/Tujuan:</label>
+    <input type="text" name="pengirim" required>
+
+    <label>Jenis Surat:</label>
+    <select name="jenis">
+      <option value="Masuk">Masuk</option>
+      <option value="Keluar">Keluar</option>
+    </select>
+
+    <label>Perihal:</label>
+    <input type="text" name="perihal" required>
+
+    <label>Link File (Google Drive):</label>
+    <input type="url" name="link" required>
+
+    <button type="submit" class="btn">Simpan</button>
+  </form>
+
+  <table id="tabelSurat">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nomor Surat</th>
+        <th>Tanggal</th>
+        <th>Pengirim/Tujuan</th>
+        <th>Jenis</th>
+        <th>Perihal</th>
+        <th>Link File</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('formSurat');
+    const tbody = document.querySelector('#tabelSurat tbody');
+    let no = 1;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+        <td>${no++}</td>
+        <td>${data.get('nomor')}</td>
+        <td>${data.get('tanggal')}</td>
+        <td>${data.get('pengirim')}</td>
+        <td>${data.get('jenis')}</td>
+        <td>${data.get('perihal')}</td>
+        <td><a href="${data.get('link')}" target="_blank">Lihat File</a></td>
+      `;
+
+      tbody.appendChild(row);
+      form.reset();
+    });
+  </script>
+</body>
+</html>
